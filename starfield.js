@@ -13,6 +13,7 @@
   const config = {
     numStars: 250,
     baseSpeed: 1,
+    trailLength: 0.8,
     maxAcceleration: 10,
     accelerationRate: 0.2,
     decelerationRate: 0.2,
@@ -181,7 +182,7 @@
     const deltaTime = (timestamp - lastTimestamp) / 16.67;
     lastTimestamp = timestamp;
 
-    ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
+    ctx.fillStyle = `rgba(0, 0, 0, ${1 - config.trailLength})`;
     ctx.fillRect(0, 0, width, height);
 
     if (accelerate) {

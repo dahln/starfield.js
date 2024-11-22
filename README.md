@@ -43,6 +43,7 @@ You can also tweak the effect with configuration options:
     // Default values
     numStars: 250,
     baseSpeed: 1,
+    trailLength: 0.8,
     maxAcceleration: 10,
     accelerationRate: 0.2,
     decelerationRate: 0.2,
@@ -75,7 +76,7 @@ However, a few functions are exposed for manual control:
  * @param {number} y The y-coordinate of the origin.
  */
 function setOrigin(x, y)
-``` 
+```
 ```javascript
 /**
  * Set the x-coordinate of the origin of the starfield.
