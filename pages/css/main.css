@@ -1,0 +1,117 @@
+@font-face {
+    font-family: 'InterDisplay';
+    src: url('../fonts/InterDisplay-ExtraLightItalic.woff2') format('woff2'),
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter-Regular.woff2') format('woff2'),
+}
+
+body {
+  background-color: #000;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  align-items: center;
+}
+
+p {
+  font-size: 20px;
+  color: white;
+  font-family: Inter, Arial, sans-serif;
+}
+
+.starfield {
+  height: 100%;
+  width: 100%;
+}
+
+.starfield-origin {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.config-panel {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 250px;
+  padding: 15px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  border-radius: 8px;
+  font-family: Inter, Arial, sans-serif;
+  z-index: 1000;
+  overflow: hidden;
+  border: 1px solid #333;
+}
+
+.config-panel input,
+.config-panel select {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 5px;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+.config-panel label {
+  font-size: 14px;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.config-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.config-panel.minimized {
+  height: auto;
+}
+
+.config-panel.minimized .config-content {
+  display: none;
+}
+
+#toggle-config-panel {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.title-text {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 16px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-family: InterDisplay, Arial, sans-serif;
+  z-index: 1000;
+}
+
+.github-icon {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+.github-icon a {
+  display: block;
+  width: 33px;
+  height: 33px;
+  background: url('../icons/github-mark-white.svg') no-repeat center center;
+  background-size: contain;
+}
