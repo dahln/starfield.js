@@ -13,17 +13,30 @@ Define a container element and an origin element with the `starfield` and `starf
   <button class="starfield-origin">Hover me!</button>
 </div>
 ```
+You might want to size and position them properly:
+```css
+.starfield {
+  height: 100%;
+  width: 100%;
+}
+.starfield-origin {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+```
 Source the script:
 ```html
 <script src="starfield.js"></script>
 ```
-Call the initializer function:
+Start the starfield:
 ```html
 <script>
   Starfield.setup();
 </script>
 ```
-Tweak the effect with configuration options:
+You can also tweak the effect with configuration options:
 ```html
 <script>
   Starfield.setup({
@@ -39,8 +52,62 @@ Tweak the effect with configuration options:
 </script>
 ```
 
+## Manual mode
+If you don't want the origin to be bound to an element, you can use manual mode:
+```html
+<script>
+  Starfield.setup({
+    auto: false,
+    originX: 100,  // container width / 2 if not set
+    originY: 250,  // container height / 2 if not set
+  });
+</script>
+```
+In this mode, a couple of features are disabled:
+- Acceleration on hover (not bound to an element)
+- Automatic canvas resizing
+
+However, a few functions are exposed for manual control:
+```javascript
+/**
+ * Set the origin of the starfield to a specific point.
+ * @param {number} x The x-coordinate of the origin.
+ * @param {number} y The y-coordinate of the origin.
+ */
+function setOrigin(x, y)
+``` 
+```javascript
+/**
+ * Set the x-coordinate of the origin of the starfield.
+ * @param {number} x The x-coordinate of the origin.
+ */
+function setOriginX(x)
+```
+```javascript
+/**
+ * Set the y-coordinate of the origin of the starfield.
+ * @param {number} y The y-coordinate of the origin.
+ */
+function setOriginY(y)
+```
+```javascript
+/**
+  * Resize the starfield to a new width and height.
+  * @param {number} newWidth The new width of the starfield.
+  * @param {number} newHeight The new height of the starfield.
+  */
+function resize(newWidth, newHeight)
+```
+```javascript
+/**
+ * Set the acceleration state of the starfield.
+ * @param {boolean} state The acceleration state.
+ */
+function setAccelerate(state)
+```
+
 ## Credits
-Original idea from [Barney Codes](https://www.youtube.com/watch?v=p0I5bNVcYP8), modified heavily for optimization, p5.js dependency removal, configurability and acceleration effect.
+Inspired by Barney Code's [Star Field Hyperdrive Light Speed Effect](https://www.youtube.com/watch?v=p0I5bNVcYP8)
 
 ## License
 [MIT License](/LICENSE)
