@@ -37,20 +37,23 @@ Start the starfield:
 </script>
 ```
 You can also tweak the effect with configuration options:
-```html
-<script>
-  Starfield.setup({
-    // Default values
-    numStars: 250,
-    baseSpeed: 1,
-    trailLength: 0.8,
-    maxAcceleration: 10,
-    accelerationRate: 0.2,
-    decelerationRate: 0.2,
-    minSpawnRadius: 80,
-    maxSpawnRadius: 500,
-  });
-</script>
+```javascript
+Starfield.setup({
+  // Default values
+  numStars: 250,
+  baseSpeed: 1,
+  trailLength: 0.8,
+  starColor: 'rgb(255, 255, 255)',
+  maxAcceleration: 10,
+  accelerationRate: 0.2,
+  decelerationRate: 0.2,
+  minSpawnRadius: 80,
+  maxSpawnRadius: 500,
+});
+```
+If you need to change the options while the starfield is running, set them through `Starfield.config`:
+```javascript
+Starfield.config.starColor = 'rgb(255, 99, 71)';
 ```
 
 ## Manual mode

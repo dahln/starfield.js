@@ -1,7 +1,7 @@
 /*
  * starfield.js
  *
- * Version: 1.1.0
+ * Version: 1.2.0
  * Description: Interactive starfield background
  *
  * Usage:
@@ -14,6 +14,7 @@
     numStars: 250,
     baseSpeed: 1,
     trailLength: 0.8,
+    starColor: 'rgb(255, 255, 255)',
     maxAcceleration: 10,
     accelerationRate: 0.2,
     decelerationRate: 0.2,
@@ -165,7 +166,8 @@
       const weight = map(velMag, 0, 10, 1, 3);
 
       ctx.lineWidth = weight;
-      ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
+      const [r, g, b] = parseRGBA(config.starColor);
+      ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
       ctx.beginPath();
       ctx.moveTo(this.prevpos.x, this.prevpos.y);
       ctx.lineTo(this.pos.x, this.pos.y);
@@ -211,6 +213,15 @@
 
   function random(min, max) {
     return Math.random() * (max - min) + min;
+  }
+
+  function parseRGBA(color) {
+    const rgbaRegex = /rgba?\((\d+),\s*(\d+),\s*(\d+)/;
+    const match = color.match(rgbaRegex);
+    if (match) {
+      return [parseInt(match[1], 10), parseInt(match[2], 10), parseInt(match[3], 10)];
+    }
+    return [255, 255, 255];
   }
 
   function map(value, start1, stop1, start2, stop2) {
@@ -286,4 +297,5 @@
   Starfield.setOriginX = setOriginX;
   Starfield.setOriginY = setOriginY;
   Starfield.resize = resize;
+  Starfield.config = config;
 })(window.Starfield = window.Starfield || {});
