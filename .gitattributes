@@ -1,4 +1,5 @@
 *.gitattributes  text
+*.gitignore      text
 *.editorconfig   text
 
 *.md             text diff=markdown
