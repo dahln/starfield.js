@@ -1,0 +1,25 @@
+<style>
+  body {
+    background-color: #000;
+  }
+  .starfield {
+    height: 100%;
+    width: 100%;
+  }
+  .starfield-origin {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+</style>
+
+<body>
+    <div class="starfield">
+        <button class="starfield-origin">Hover me!</button>
+    </div>
+    <script src="starfield.js"></script>
+    <script>
+    Starfield.setup();
+    </script>
+</body>
