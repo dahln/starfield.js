@@ -55,6 +55,8 @@ If you need to change the options while the starfield is running, set them throu
 ```javascript
 Starfield.config.starColor = 'rgb(255, 99, 71)';
 ```
+> ![NOTE]
+> The `numStars` option cannot be changed after the starfield is started.
 
 ## Manual mode
 If you don't want the origin to be bound to an element, you can use manual mode:
