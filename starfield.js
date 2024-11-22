@@ -1,7 +1,7 @@
 /*
  * starfield.js
  *
- * Version: 1.0.0
+ * Version: 1.1.0
  * Description: Interactive starfield background
  *
  * Usage:
@@ -18,16 +18,22 @@
     decelerationRate: 0.2,
     minSpawnRadius: 80,
     maxSpawnRadius: 500,
+    auto: true,
+    originX: null,
+    originY: null,
   };
 
   let stars = [];
   let accelerate = false;
   let accelerationFactor = 0;
+  let originX = 0;
   let originY = 0;
 
   let canvas, ctx;
   let width, height;
   let lastTimestamp = 0;
+
+  let origin;
 
   function getOriginY(origin, container) {
     const originRect = origin.getBoundingClientRect();
@@ -35,12 +41,21 @@
     return originRect.top - containerRect.top + originRect.height / 2;
   }
 
+  function getOriginX(origin, container) {
+    const originRect = origin.getBoundingClientRect();
+    const containerRect = container.getBoundingClientRect();
+    return originRect.left - containerRect.left + originRect.width / 2;
+  }
+
+  /**
+   * Set up and start the starfield animation.
+   * @param {Object} userConfig Configuration options.
+   */
   function setup(userConfig = {}) {
     Object.assign(config, userConfig);
 
     const container = document.querySelector(".starfield");
-    const origin = document.querySelector(".starfield-origin");
-    container.position = "relative";
+    container.style.position = "relative";
 
     width = container.clientWidth;
     height = container.clientHeight;
@@ -60,23 +75,29 @@
 
     ctx = canvas.getContext("2d");
 
-    originY = getOriginY(origin, container);
-    containerBottomY = height;
+    if (config.auto) {
+      origin = document.querySelector(".starfield-origin");
+      originX = getOriginX(origin, container);
+      originY = getOriginY(origin, container);
+
+      origin.addEventListener("mouseenter", () => (accelerate = true));
+      origin.addEventListener("mouseleave", () => (accelerate = false));
+
+      window.addEventListener("resize", () => windowResized(container, origin));
+    } else {
+      originX = config.originX !== null ? config.originX : width / 2;
+      originY = config.originY !== null ? config.originY : height / 2;
+    }
 
     for (let i = 0; i < config.numStars; i++) {
       const star = createRandomStar();
       stars.push(star);
     }
 
-    origin.addEventListener("mouseenter", () => (accelerate = true));
-    origin.addEventListener("mouseleave", () => (accelerate = false));
-
-    window.addEventListener("resize", () => windowResized(container, origin));
-
     document.addEventListener("visibilitychange", function() {
-        if (document.visibilityState === "visible") {
-            lastTimestamp = performance.now();
-        }
+      if (document.visibilityState === "visible") {
+        lastTimestamp = performance.now();
+      }
     });
 
     requestAnimationFrame(draw);
@@ -88,8 +109,8 @@
     canvas.width = width;
     canvas.height = height;
 
+    originX = getOriginX(origin, container);
     originY = getOriginY(origin, container);
-    containerBottomY = height;
 
     stars.forEach(star => star.reset());
   }
@@ -98,7 +119,7 @@
     const angle = random(0, Math.PI * 2);
     const radius = random(config.minSpawnRadius, config.maxSpawnRadius);
 
-    const x = width / 2 + Math.cos(angle) * radius;
+    const x = originX + Math.cos(angle) * radius;
     const y = originY + Math.sin(angle) * radius;
 
     return new Star(x, y);
@@ -109,7 +130,7 @@
       this.pos = { x: x, y: y };
       this.prevpos = { x: x, y: y };
       this.vel = { x: 0, y: 0 };
-      this.angle = Math.atan2(y - originY, x - width / 2);
+      this.angle = Math.atan2(y - originY, x - originX);
       this.baseSpeed = random(config.baseSpeed * 0.5, config.baseSpeed * 1.5);
       this.isVisible = true;
     }
@@ -122,7 +143,7 @@
       this.prevpos.y = this.pos.y;
       this.vel.x = 0;
       this.vel.y = 0;
-      this.angle = Math.atan2(this.pos.y - originY, this.pos.x - width / 2);
+      this.angle = Math.atan2(this.pos.y - originY, this.pos.x - originX);
     }
 
     update(acc, deltaTime) {
@@ -160,7 +181,7 @@
     const deltaTime = (timestamp - lastTimestamp) / 16.67;
     lastTimestamp = timestamp;
 
-    ctx.fillStyle = "rgba(0, 0, 0, 0.2)"
+    ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
     ctx.fillRect(0, 0, width, height);
 
     if (accelerate) {
@@ -195,5 +216,73 @@
     return ((value - start1) / (stop1 - start1)) * (stop2 - start2) + start2;
   }
 
+  /**
+   * Set the acceleration state of the starfield.
+   * @param {boolean} state The acceleration state.
+   */
+  function setAccelerate(state) {
+    accelerate = state;
+  }
+
+  /**
+   * Set the x-coordinate of the origin of the starfield.
+   * @param {number} x The x-coordinate of the origin.
+   */
+  function setOriginX(x) {
+    originX = x;
+    stars.forEach(star => {
+      star.angle = Math.atan2(star.pos.y - originY, star.pos.x - originX);
+    });
+  }
+
+  /**
+   * Set the y-coordinate of the origin of the starfield.
+   * @param {number} y The y-coordinate of the origin.
+   */
+  function setOriginY(y) {
+    originY = y;
+    stars.forEach(star => {
+      star.angle = Math.atan2(star.pos.y - originY, star.pos.x - originX);
+    });
+  }
+
+  /**
+   * Set the origin of the starfield to a specific point.
+   * @param {number} x The x-coordinate of the origin.
+   * @param {number} y The y-coordinate of the origin.
+   */
+  function setOrigin(x, y) {
+    originX = x;
+    originY = y;
+    stars.forEach(star => {
+      star.angle = Math.atan2(star.pos.y - originY, star.pos.x - originX);
+    });
+  }
+
+  /**
+    * Resize the starfield to a new width and height.
+    * @param {number} newWidth The new width of the starfield.
+    * @param {number} newHeight The new height of the starfield.
+   */
+  function resize(newWidth, newHeight) {
+    width = newWidth;
+    height = newHeight;
+    canvas.width = width;
+    canvas.height = height;
+
+    if (config.originY !== null) {
+      originY = config.originY;
+    } else {
+      originY = height / 2;
+    }
+
+    stars.forEach(star => star.reset());
+  }
+
   Starfield.setup = setup;
+  Starfield.setAccelerate = setAccelerate;
+  Starfield.setOrigin = setOrigin;
+  Starfield.setOriginX = setOriginX;
+  Starfield.setOriginY = setOriginY;
+  Starfield.resize = resize;
 })(window.Starfield = window.Starfield || {});
