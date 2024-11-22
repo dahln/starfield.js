@@ -55,6 +55,7 @@
 
     const updateConfig = {
       trailLength: (value) => {
+        if (value === "") return;
         Starfield.config.trailLength = parseFloat(value);
       },
       starColor: (value) => {
@@ -65,21 +66,27 @@
         Starfield.config.starColor = `rgb(${r}, ${g}, ${b})`;
       },
       baseSpeed: (value) => {
+        if (value === "") return;
         Starfield.config.baseSpeed = parseFloat(value);
       },
       maxAcceleration: (value) => {
+        if (value === "") return;
         Starfield.config.maxAcceleration = parseFloat(value);
       },
       accelerationRate: (value) => {
+        if (value === "") return;
         Starfield.config.accelerationRate = parseFloat(value);
       },
       decelerationRate: (value) => {
+        if (value === "") return;
         Starfield.config.decelerationRate = parseFloat(value);
       },
       minSpawnRadius: (value) => {
+        if (value === "") return;
         Starfield.config.minSpawnRadius = parseInt(value, 10);
       },
       maxSpawnRadius: (value) => {
+        if (value === "") return;
         Starfield.config.maxSpawnRadius = parseInt(value, 10);
       },
     };
