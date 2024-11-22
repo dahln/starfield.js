@@ -2,7 +2,9 @@
 A starfield background with an element hover acceleration effect.\
 No external libs, just html canvas.
 
-https://github.com/user-attachments/assets/b291d529-b424-4f46-a52d-5f6fff8c918f
+https://github.com/user-attachments/assets/1d9ab61d-5b7b-4fa0-ade3-78ddf4cd4c81
+
+[Live demo](https://annikav9.github.io/starfield.js)
 
 ## Usage
 Define a container element and an origin element with the `starfield` and `starfield-origin` classes.
