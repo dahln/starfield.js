@@ -1,6 +1,5 @@
 # starfield.js
-A starfield background with an element hover acceleration effect.\
-No external libs, just html canvas.
+An interactive star field background effect with html canvas.
 
 https://github.com/user-attachments/assets/1d9ab61d-5b7b-4fa0-ade3-78ddf4cd4c81
 
