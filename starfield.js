@@ -1,7 +1,7 @@
 /*
  * starfield.js
  *
- * Version: 1.2.1
+ * Version: 1.2.2
  * Description: Interactive starfield background
  *
  * Usage:
