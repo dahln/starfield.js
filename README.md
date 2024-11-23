@@ -3,7 +3,7 @@ An interactive star field background effect with html canvas.
 
 https://github.com/user-attachments/assets/1d9ab61d-5b7b-4fa0-ade3-78ddf4cd4c81
 
-[Live demo](https://annikav9.github.io/starfield.js)
+[Demo playground](https://annikav9.github.io/starfield.js)
 
 ## Usage
 Define a container element and an origin element with the `starfield` and `starfield-origin` classes.
@@ -50,6 +50,8 @@ Starfield.setup({
   maxSpawnRadius: 500,
 });
 ```
+Use the [demo playground](https://annikav9.github.io/starfield.js) to experiment with the options.
+
 If you need to change the options while the starfield is running, set them through `Starfield.config`:
 ```javascript
 Starfield.config.starColor = 'rgb(255, 99, 71)';
