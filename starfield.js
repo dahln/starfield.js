@@ -30,12 +30,15 @@
   let accelerationFactor = 0;
   let originX = 0;
   let originY = 0;
+  let prevOriginX = 0;
+  let prevOriginY = 0;
 
   let canvas, ctx;
   let width, height;
   let lastTimestamp = 0;
 
   let origin;
+  let container;
 
   function getOriginY(origin, container) {
     const originRect = origin.getBoundingClientRect();
@@ -56,7 +59,7 @@
   function setup(userConfig = {}) {
     Object.assign(config, userConfig);
 
-    const container = document.querySelector(".starfield");
+    container = document.querySelector(".starfield");
     container.style.position = "relative";
 
     width = container.clientWidth;
@@ -178,12 +181,28 @@
     isActive() {
       return onScreen(this.pos.x, this.pos.y);
     }
+
+    updateAngle() {
+        this.angle = Math.atan2(this.pos.y - originY, this.pos.x - originX);
+    }
   }
 
   function draw(timestamp) {
     if (!lastTimestamp) lastTimestamp = timestamp;
     const deltaTime = (timestamp - lastTimestamp) / 16.67;
     lastTimestamp = timestamp;
+
+    if (config.auto) {
+      originX = getOriginX(origin, container);
+      originY = getOriginY(origin, container);
+      if (originX !== prevOriginX || originY !== prevOriginY) {
+        stars.forEach(star => {
+          star.updateAngle();
+        });
+        prevOriginX = originX;
+        prevOriginY = originY;
+      }
+    }
 
     ctx.fillStyle = `rgba(0, 0, 0, ${1 - config.trailLength})`;
     ctx.fillRect(0, 0, width, height);
