@@ -42,7 +42,7 @@ Starfield.setup({
   numStars: 250,
   baseSpeed: 1,
   trailLength: 0.8,
-  starColor: 'rgb(255, 255, 255)',
+  starColor: 'rgb(255, 255, 255)', // rgb only
   maxAcceleration: 10,
   accelerationRate: 0.2,
   decelerationRate: 0.2,
