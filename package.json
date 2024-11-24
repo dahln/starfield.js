@@ -1,0 +1,13 @@
+{
+  "name": "starfield.js",
+  "source": "index.html",
+  "scripts": {
+    "start": "parcel",
+    "build": "parcel build  --no-source-maps",
+  },
+  "devDependencies": {
+    "parcel": "latest",
+    "parcel-transformer-ogimage": "latest",
+    "svgo": "latest"
+  }
+}
