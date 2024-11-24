@@ -3,13 +3,12 @@
   "source": "index.html",
   "scripts": {
     "start": "parcel",
-    "build": "parcel build",
+    "build": "parcel build  --no-source-maps",
     "push-gh-pages": "push-dir --dir=dist --branch=gh-pages --cleanup --verbose"
   },
   "devDependencies": {
     "parcel": "latest",
     "parcel-transformer-ogimage": "latest",
-    "svgo": "latest",
-    "push-dir": "latest"
+    "svgo": "latest"
   }
 }
