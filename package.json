@@ -3,11 +3,13 @@
   "source": "index.html",
   "scripts": {
     "start": "parcel",
-    "build": "parcel build  --no-source-maps"
+    "build": "parcel build  --no-source-maps",
+    "deploy": "gh-pages -d dist -b gh-pages -m 'Deploy'"
   },
   "devDependencies": {
     "parcel": "latest",
     "parcel-transformer-ogimage": "latest",
-    "svgo": "latest"
+    "svgo": "latest",
+    "gh-pages": "latest"
   }
 }
