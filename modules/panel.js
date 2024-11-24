@@ -39,15 +39,15 @@ export function initPanel() {
 
   function generateEmbed() {
     const configElements = [
-      'starColor',
-      'hueJitter',
-      'trailLength',
-      'baseSpeed',
-      'maxAcceleration',
-      'accelerationRate',
-      'decelerationRate',
-      'minSpawnRadius',
-      'maxSpawnRadius',
+      "starColor",
+      "hueJitter",
+      "trailLength",
+      "baseSpeed",
+      "maxAcceleration",
+      "accelerationRate",
+      "decelerationRate",
+      "minSpawnRadius",
+      "maxSpawnRadius",
     ];
 
     const config = {};
@@ -58,7 +58,7 @@ export function initPanel() {
       }
     });
 
-    const numericValue = parseInt(config.starColor.replace('#', ''), 16);
+    const numericValue = parseInt(config.starColor.replace("#", ""), 16);
     const r = (numericValue >> 16) & 0xff;
     const g = (numericValue >> 8) & 0xff;
     const b = numericValue & 0xff;
@@ -79,26 +79,26 @@ export function initPanel() {
   });
 </script>`;
 
-    document.getElementById('embed-code').textContent = embedCode;
+    document.getElementById("embed-code").textContent = embedCode;
   }
 
   function attachDynamicListeners() {
     const configIds = [
-      'trailLength',
-      'starColor',
-      'hueJitter',
-      'baseSpeed',
-      'maxAcceleration',
-      'accelerationRate',
-      'decelerationRate',
-      'minSpawnRadius',
-      'maxSpawnRadius',
+      "trailLength",
+      "starColor",
+      "hueJitter",
+      "baseSpeed",
+      "maxAcceleration",
+      "accelerationRate",
+      "decelerationRate",
+      "minSpawnRadius",
+      "maxSpawnRadius",
     ];
 
     configIds.forEach((id) => {
       const element = document.getElementById(id);
       if (element) {
-        element.addEventListener('input', (e) => {
+        element.addEventListener("input", (e) => {
           const value = e.target.value;
           if (updateConfig[id]) {
             updateConfig[id](value);
@@ -110,8 +110,14 @@ export function initPanel() {
   }
 
   function adjustPanelHeight() {
-    const configPanel = document.querySelector('.config-panel');
+    const configPanel = document.querySelector(".config-panel");
     if (!configPanel) return;
+
+    if (configPanel.classList.contains("minimized")) {
+      configPanel.style.maxHeight = "";
+      configPanel.style.overflowY = "";
+      return;
+    }
 
     const topGap = 20;
     const bottomGap = 20;
@@ -119,39 +125,39 @@ export function initPanel() {
     const availableHeight = window.innerHeight - topGap - bottomGap;
 
     configPanel.style.maxHeight = `${Math.min(contentHeight, availableHeight)}px`;
-    configPanel.style.overflowY = contentHeight > availableHeight ? 'auto' : 'hidden';
+    configPanel.style.overflowY = contentHeight > availableHeight ? "auto" : "hidden";
   }
 
   function toggleConfigPanel() {
-    const toggleButton = document.getElementById('toggle-config-panel');
-    const configPanel = document.querySelector('.config-panel');
+    const toggleButton = document.getElementById("toggle-config-panel");
+    const configPanel = document.querySelector(".config-panel");
 
     if (!toggleButton || !configPanel) return;
 
-    toggleButton.addEventListener('click', () => {
-      configPanel.classList.toggle('minimized');
-      if (configPanel.classList.contains('minimized')) {
-        toggleButton.textContent = '+';
-        toggleButton.title = 'Maximize Panel';
+    toggleButton.addEventListener("click", () => {
+      configPanel.classList.toggle("minimized");
+      if (configPanel.classList.contains("minimized")) {
+        toggleButton.textContent = "+";
+        toggleButton.title = "Maximize Panel";
       } else {
-        toggleButton.textContent = '−';
-        toggleButton.title = 'Minimize Panel';
+        toggleButton.textContent = "−";
+        toggleButton.title = "Minimize Panel";
       }
     });
   }
 
   function initEmbed() {
-    const copyButton = document.getElementById('copy-embed-code');
-    const embedCodeElement = document.getElementById('embed-code');
+    const copyButton = document.getElementById("copy-embed-code");
+    const embedCodeElement = document.getElementById("embed-code");
 
     if (!copyButton || !embedCodeElement) return;
 
-    copyButton.addEventListener('click', () => {
+    copyButton.addEventListener("click", () => {
       const codeContent = embedCodeElement.textContent;
       navigator.clipboard.writeText(codeContent).then(() => {
-        copyButton.textContent = 'Copied!';
+        copyButton.textContent = "Copied!";
         setTimeout(() => {
-          copyButton.textContent = 'Copy';
+          copyButton.textContent = "Copy";
         }, 2000);
       });
     });
@@ -163,5 +169,5 @@ export function initPanel() {
   initEmbed();
   adjustPanelHeight();
 
-  window.addEventListener('resize', adjustPanelHeight);
+  window.addEventListener("resize", adjustPanelHeight);
 }
