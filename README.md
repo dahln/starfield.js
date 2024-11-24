@@ -100,10 +100,10 @@ function setOriginY(y)
 ```
 ```javascript
 /**
-  * Resize the starfield to a new width and height.
-  * @param {number} newWidth The new width of the starfield.
-  * @param {number} newHeight The new height of the starfield.
-  */
+ * Resize the starfield to a new width and height.
+ * @param {number} newWidth The new width of the starfield.
+ * @param {number} newHeight The new height of the starfield.
+ */
 function resize(newWidth, newHeight)
 ```
 ```javascript
