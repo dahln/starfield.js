@@ -1,7 +1,7 @@
 /*
  * starfield.js
  *
- * Version: 1.3.0
+ * Version: 1.3.1
  * Description: Interactive starfield background
  *
  * Usage:
@@ -152,6 +152,7 @@
       this.vel.y = 0;
       this.baseSpeed = random(config.baseSpeed * 0.5, config.baseSpeed * 1.5);
       this.angle = Math.atan2(this.pos.y - originY, this.pos.x - originX);
+      this.hueOffset = random(-config.hueJitter, config.hueJitter);
     }
 
     update(acc, deltaTime) {
