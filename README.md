@@ -1,7 +1,6 @@
-# starfield.js
-An interactive star field background effect with html canvas.
+![banner](https://github.com/user-attachments/assets/dea72f27-23d1-4131-bd77-6b0d4402a9a0)
 
-https://github.com/user-attachments/assets/1d9ab61d-5b7b-4fa0-ade3-78ddf4cd4c81
+An interactive star field background effect with html canvas.
 
 [Demo playground](https://annikav9.github.io/starfield.js)
 
@@ -12,7 +11,7 @@ Define a container element and an origin element with the `starfield` and `starf
   <button class="starfield-origin">Hover me!</button>
 </div>
 ```
-You might want to size and position them properly:
+Size and position them as required, here's an example:
 ```css
 .starfield {
   height: 100%;
@@ -29,13 +28,13 @@ Source the script:
 ```html
 <script src="starfield.js"></script>
 ```
-Start the starfield:
+Start the star field:
 ```html
 <script>
   Starfield.setup();
 </script>
 ```
-You can also tweak the effect with configuration options:
+You can tweak the effect with configuration options:
 ```javascript
 Starfield.setup({
   // Default values
@@ -51,14 +50,14 @@ Starfield.setup({
   maxSpawnRadius: 500,               // Maximum spawn distance from origin
 });
 ```
-Use the [demo playground](https://annikav9.github.io/starfield.js) to experiment with the options.
+Use the [demo playground](https://annikav9.github.io/starfield.js) to experiment.
 
-If you need to change the options while the starfield is running, set them through `Starfield.config`:
+If you need to change the options while the star field is running, set them through `Starfield.config`:
 ```javascript
 Starfield.config.starColor = 'rgb(255, 99, 71)';
 ```
 > [!NOTE]
-> The `numStars` option cannot be changed after the starfield is started.
+> The `numStars` option cannot be changed after the star field is started.
 
 ## Manual mode
 If you don't want the origin to be bound to an element, you can use manual mode:
@@ -73,6 +72,7 @@ If you don't want the origin to be bound to an element, you can use manual mode:
 ```
 In this mode, a couple of features are disabled:
 - Acceleration on hover (not bound to an element)
+- Origin element tracking (not bound to an element)
 - Automatic canvas resizing
 
 However, a few functions are exposed for manual control:
@@ -118,4 +118,4 @@ function setAccelerate(state)
 Inspired by Barney Code's [Star Field Hyperdrive Light Speed Effect](https://www.youtube.com/watch?v=p0I5bNVcYP8)
 
 ## License
-[MIT License](/LICENSE)
+This project is licensed under the [MIT License](/LICENSE)
