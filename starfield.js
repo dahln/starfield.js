@@ -139,7 +139,6 @@
       this.angle = Math.atan2(y - originY, x - originX);
       this.baseSpeed = random(config.baseSpeed * 0.5, config.baseSpeed * 1.5);
       this.hueOffset = random(-config.hueJitter, config.hueJitter);
-      this.isVisible = true;
     }
 
     reset() {
@@ -150,8 +149,8 @@
       this.prevpos.y = this.pos.y;
       this.vel.x = 0;
       this.vel.y = 0;
-      this.baseSpeed = random(config.baseSpeed * 0.5, config.baseSpeed * 1.5);
       this.angle = Math.atan2(this.pos.y - originY, this.pos.x - originX);
+      this.baseSpeed = random(config.baseSpeed * 0.5, config.baseSpeed * 1.5);
       this.hueOffset = random(-config.hueJitter, config.hueJitter);
     }
 
@@ -347,9 +346,9 @@
   }
 
   /**
-    * Resize the starfield to a new width and height.
-    * @param {number} newWidth The new width of the starfield.
-    * @param {number} newHeight The new height of the starfield.
+   * Resize the starfield to a new width and height.
+   * @param {number} newWidth The new width of the starfield.
+   * @param {number} newHeight The new height of the starfield.
    */
   function resize(newWidth, newHeight) {
     width = newWidth;
