@@ -1,7 +1,7 @@
 /*
  * starfield.js
  *
- * Version: 1.2.2
+ * Version: 1.3.0
  * Description: Interactive starfield background
  *
  * Usage:
@@ -11,15 +11,16 @@
  */
 (function (Starfield) {
   const config = {
-    numStars: 250,
-    baseSpeed: 1,
-    trailLength: 0.8,
-    starColor: 'rgb(255, 255, 255)',
-    maxAcceleration: 10,
-    accelerationRate: 0.2,
-    decelerationRate: 0.2,
-    minSpawnRadius: 80,
-    maxSpawnRadius: 500,
+    numStars: 250,                     // Number of stars
+    baseSpeed: 1,                      // Base speed of stars (will affect acceleration)
+    trailLength: 0.8,                  // Length of star trail (0-1)
+    starColor: 'rgb(230, 230, 100)',   // Color of stars (only rgb)
+    hueJitter: 0,                      // Maximum hue variation in degrees (0-360)
+    maxAcceleration: 10,               // Maximum acceleration
+    accelerationRate: 0.2,             // Rate of acceleration
+    decelerationRate: 0.2,             // Rate of deceleration
+    minSpawnRadius: 80,                // Minimum spawn distance from origin
+    maxSpawnRadius: 500,               // Maximum spawn distance from origin
     auto: true,
     originX: null,
     originY: null,
@@ -137,6 +138,7 @@
       this.vel = { x: 0, y: 0 };
       this.angle = Math.atan2(y - originY, x - originX);
       this.baseSpeed = random(config.baseSpeed * 0.5, config.baseSpeed * 1.5);
+      this.hueOffset = random(-config.hueJitter, config.hueJitter);
       this.isVisible = true;
     }
 
@@ -170,8 +172,13 @@
       const weight = map(velMag, 0, 10, 1, 3);
 
       ctx.lineWidth = weight;
+
       const [r, g, b] = parseRGBA(config.starColor);
-      ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
+      const [h, s, l] = rgbToHsl(r, g, b);
+      const adjustedH = (h + this.hueOffset + 360) % 360;
+      const [newR, newG, newB] = hslToRgb(adjustedH, s, l).map(v => Math.round(v));
+      ctx.strokeStyle = `rgba(${newR}, ${newG}, ${newB}, ${alpha})`;
+
       ctx.beginPath();
       ctx.moveTo(this.prevpos.x, this.prevpos.y);
       ctx.lineTo(this.pos.x, this.pos.y);
@@ -233,6 +240,53 @@
 
   function random(min, max) {
     return Math.random() * (max - min) + min;
+  }
+
+  function rgbToHsl(r, g, b) {
+    r /= 255; g /= 255; b /= 255;
+    const max = Math.max(r, g, b), min = Math.min(r, g, b);
+    let h, s, l = (max + min) / 2;
+
+    if(max === min) {
+      h = s = 0;
+    } else {
+      const d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      switch(max){
+        case r: h = ((g - b) / d + (g < b ? 6 : 0)); break;
+        case g: h = ((b - r) / d + 2); break;
+        case b: h = ((r - g) / d + 4); break;
+      }
+      h /= 6;
+    }
+
+    return [h * 360, s, l];
+  }
+
+  function hslToRgb(h, s, l) {
+    let r, g, b;
+    h = h / 360;
+
+    if(s === 0) {
+      r = g = b = l;
+    } else {
+      const hue2rgb = (p, q, t) => {
+        if(t < 0) t += 1;
+        if(t > 1) t -= 1;
+        if(t < 1/6) return p + (q - p) * 6 * t;
+        if(t < 1/2) return q;
+        if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+        return p;
+      };
+
+      const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+      const p = 2 * l - q;
+      r = hue2rgb(p, q, h + 1/3);
+      g = hue2rgb(p, q, h);
+      b = hue2rgb(p, q, h - 1/3);
+    }
+
+    return [r * 255, g * 255, b * 255];
   }
 
   function parseRGBA(color) {

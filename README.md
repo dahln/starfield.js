@@ -39,15 +39,16 @@ You can also tweak the effect with configuration options:
 ```javascript
 Starfield.setup({
   // Default values
-  numStars: 250,
-  baseSpeed: 1,
-  trailLength: 0.8,
-  starColor: 'rgb(255, 255, 255)', // rgb only
-  maxAcceleration: 10,
-  accelerationRate: 0.2,
-  decelerationRate: 0.2,
-  minSpawnRadius: 80,
-  maxSpawnRadius: 500,
+  numStars: 250,                     // Number of stars
+  baseSpeed: 1,                      // Base speed of stars (will affect acceleration)
+  trailLength: 0.8,                  // Length of star trail (0-1)
+  starColor: 'rgb(230, 230, 100)',   // Color of stars (only rgb)
+  hueJitter: 0,                      // Maximum hue variation in degrees (0-360)
+  maxAcceleration: 10,               // Maximum acceleration
+  accelerationRate: 0.2,             // Rate of acceleration
+  decelerationRate: 0.2,             // Rate of deceleration
+  minSpawnRadius: 80,                // Minimum spawn distance from origin
+  maxSpawnRadius: 500,               // Maximum spawn distance from origin
 });
 ```
 Use the [demo playground](https://annikav9.github.io/starfield.js) to experiment with the options.
