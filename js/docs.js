@@ -1,13 +1,21 @@
-document.getElementById('open-docs').addEventListener('click', function () {
-  document.getElementById('documentation-overlay').style.display = 'block';
-});
+export function initDocs() {
+  const openButton = document.getElementById('open-docs');
+  const closeButton = document.getElementById('close-docs');
+  const overlay = document.getElementById('documentation-overlay');
 
-document.getElementById('close-docs').addEventListener('click', function () {
-  document.getElementById('documentation-overlay').style.display = 'none';
-});
+  if (!openButton || !closeButton || !overlay) return;
 
-document.getElementById('documentation-overlay').addEventListener('click', function (e) {
-  if (e.target === this) {
-    this.style.display = 'none';
-  }
-});
+  openButton.addEventListener('click', () => {
+    overlay.style.display = 'block';
+  });
+
+  closeButton.addEventListener('click', () => {
+    overlay.style.display = 'none';
+  });
+
+  overlay.addEventListener('click', function (e) {
+    if (e.target === this) {
+      this.style.display = 'none';
+    }
+  });
+}
