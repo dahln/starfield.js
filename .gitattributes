@@ -1,9 +1,0 @@
-*.gitattributes  text
-*.gitignore      text
-*.editorconfig   text
-
-*.md             text diff=markdown
-LICENSE          text
-
-*.js             text diff=javascript
-*.html           text diff=html
