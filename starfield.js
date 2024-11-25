@@ -1,7 +1,7 @@
 /*
  * starfield.js
  *
- * Version: 1.3.1
+ * Version: 1.4.0
  * Description: Interactive starfield background
  *
  * Usage:
@@ -9,21 +9,33 @@
  *    // options
  *  });
  */
-(function (Starfield) {
+(function(root, factory) {
+  if (typeof define === "function" && define.amd) {
+    define([], factory);
+  } else if (typeof module === "object" && module.exports) {
+    module.exports = factory();
+  } else {
+    root.Starfield = factory();
+  }
+}(this, function() {
+  const Starfield = {};
+
   const config = {
-    numStars: 250,                     // Number of stars
-    baseSpeed: 1,                      // Base speed of stars (will affect acceleration)
-    trailLength: 0.8,                  // Length of star trail (0-1)
-    starColor: 'rgb(255, 255, 255)',   // Color of stars (only rgb)
-    hueJitter: 0,                      // Maximum hue variation in degrees (0-360)
-    maxAcceleration: 10,               // Maximum acceleration
-    accelerationRate: 0.2,             // Rate of acceleration
-    decelerationRate: 0.2,             // Rate of deceleration
-    minSpawnRadius: 80,                // Minimum spawn distance from origin
-    maxSpawnRadius: 500,               // Maximum spawn distance from origin
+    numStars: 250,                    // Number of stars
+    baseSpeed: 1,                     // Base speed of stars (will affect acceleration)
+    trailLength: 0.8,                 // Length of star trail (0-1)
+    starColor: "rgb(255, 255, 255)",  // Color of stars (only rgb)
+    hueJitter: 0,                     // Maximum hue variation in degrees (0-360)
+    maxAcceleration: 10,              // Maximum acceleration
+    accelerationRate: 0.2,            // Rate of acceleration
+    decelerationRate: 0.2,            // Rate of deceleration
+    minSpawnRadius: 80,               // Minimum spawn distance from origin
+    maxSpawnRadius: 500,              // Maximum spawn distance from origin
     auto: true,
     originX: null,
     originY: null,
+    container: null,
+    originElement: null,
   };
 
   let stars = [];
@@ -60,7 +72,10 @@
   function setup(userConfig = {}) {
     Object.assign(config, userConfig);
 
-    container = document.querySelector(".starfield");
+    container = config.container || document.querySelector(".starfield");
+    if (!container) {
+      throw new Error("Starfield: No container element found.");
+    }
     container.style.position = "relative";
 
     width = container.clientWidth;
@@ -82,7 +97,10 @@
     ctx = canvas.getContext("2d");
 
     if (config.auto) {
-      origin = document.querySelector(".starfield-origin");
+      origin = config.originElement || document.querySelector(".starfield-origin");
+      if (!origin) {
+        throw new Error("Starfield: No origin element found.");
+      }
       originX = getOriginX(origin, container);
       originY = getOriginY(origin, container);
 
@@ -133,9 +151,18 @@
 
   class Star {
     constructor(x, y) {
-      this.pos = { x: x, y: y };
-      this.prevpos = { x: x, y: y };
-      this.vel = { x: 0, y: 0 };
+      this.pos = {
+        x: x,
+        y: y
+      };
+      this.prevpos = {
+        x: x,
+        y: y
+      };
+      this.vel = {
+        x: 0,
+        y: 0
+      };
       this.angle = Math.atan2(y - originY, x - originX);
       this.baseSpeed = random(config.baseSpeed * 0.5, config.baseSpeed * 1.5);
       this.hueOffset = random(-config.hueJitter, config.hueJitter);
@@ -190,7 +217,7 @@
     }
 
     updateAngle() {
-        this.angle = Math.atan2(this.pos.y - originY, this.pos.x - originX);
+      this.angle = Math.atan2(this.pos.y - originY, this.pos.x - originX);
     }
   }
 
@@ -243,19 +270,28 @@
   }
 
   function rgbToHsl(r, g, b) {
-    r /= 255; g /= 255; b /= 255;
-    const max = Math.max(r, g, b), min = Math.min(r, g, b);
+    r /= 255;
+    g /= 255;
+    b /= 255;
+    const max = Math.max(r, g, b),
+      min = Math.min(r, g, b);
     let h, s, l = (max + min) / 2;
 
-    if(max === min) {
+    if (max === min) {
       h = s = 0;
     } else {
       const d = max - min;
       s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-      switch(max){
-        case r: h = ((g - b) / d + (g < b ? 6 : 0)); break;
-        case g: h = ((b - r) / d + 2); break;
-        case b: h = ((r - g) / d + 4); break;
+      switch (max) {
+        case r:
+          h = ((g - b) / d + (g < b ? 6 : 0));
+          break;
+        case g:
+          h = ((b - r) / d + 2);
+          break;
+        case b:
+          h = ((r - g) / d + 4);
+          break;
       }
       h /= 6;
     }
@@ -267,23 +303,23 @@
     let r, g, b;
     h = h / 360;
 
-    if(s === 0) {
+    if (s === 0) {
       r = g = b = l;
     } else {
       const hue2rgb = (p, q, t) => {
-        if(t < 0) t += 1;
-        if(t > 1) t -= 1;
-        if(t < 1/6) return p + (q - p) * 6 * t;
-        if(t < 1/2) return q;
-        if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+        if (t < 0) t += 1;
+        if (t > 1) t -= 1;
+        if (t < 1 / 6) return p + (q - p) * 6 * t;
+        if (t < 1 / 2) return q;
+        if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
         return p;
       };
 
       const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
       const p = 2 * l - q;
-      r = hue2rgb(p, q, h + 1/3);
+      r = hue2rgb(p, q, h + 1 / 3);
       g = hue2rgb(p, q, h);
-      b = hue2rgb(p, q, h - 1/3);
+      b = hue2rgb(p, q, h - 1 / 3);
     }
 
     return [r * 255, g * 255, b * 255];
@@ -365,6 +401,27 @@
     stars.forEach(star => star.reset());
   }
 
+  function cleanup() {
+    if (origin) {
+      origin.removeEventListener("mouseenter", () => (accelerate = true));
+      origin.removeEventListener("mouseleave", () => (accelerate = false));
+    }
+    window.removeEventListener("resize", windowResized);
+
+    if (canvas && canvas.parentNode) {
+      canvas.parentNode.removeChild(canvas);
+    }
+
+    stars = [];
+    accelerate = false;
+    accelerationFactor = 0;
+    originX = 0;
+    originY = 0;
+    prevOriginX = 0;
+    prevOriginY = 0;
+    lastTimestamp = 0;
+  }
+
   Starfield.setup = setup;
   Starfield.setAccelerate = setAccelerate;
   Starfield.setOrigin = setOrigin;
@@ -372,4 +429,7 @@
   Starfield.setOriginY = setOriginY;
   Starfield.resize = resize;
   Starfield.config = config;
-})(window.Starfield = window.Starfield || {});
+  Starfield.cleanup = cleanup;
+
+  return Starfield;
+}));
