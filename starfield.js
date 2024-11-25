@@ -53,6 +53,16 @@
   let origin;
   let container;
 
+  const mouseEnterHandler = () => (accelerate = true);
+  const mouseLeaveHandler = () => (accelerate = false);
+  const resizeHandler = () => windowResized(container, origin);
+
+  function visibilityHandler() {
+    if (document.visibilityState === "visible") {
+      lastTimestamp = performance.now();
+    }
+  }
+
   function getOriginY(origin, container) {
     const originRect = origin.getBoundingClientRect();
     const containerRect = container.getBoundingClientRect();
@@ -104,10 +114,10 @@
       originX = getOriginX(origin, container);
       originY = getOriginY(origin, container);
 
-      origin.addEventListener("mouseenter", () => (accelerate = true));
-      origin.addEventListener("mouseleave", () => (accelerate = false));
+      origin.addEventListener("mouseenter", mouseEnterHandler);
+      origin.addEventListener("mouseleave", mouseLeaveHandler);
 
-      window.addEventListener("resize", () => windowResized(container, origin));
+      window.addEventListener("resize", resizeHandler);
     } else {
       originX = config.originX !== null ? config.originX : width / 2;
       originY = config.originY !== null ? config.originY : height / 2;
@@ -118,11 +128,7 @@
       stars.push(star);
     }
 
-    document.addEventListener("visibilitychange", function() {
-      if (document.visibilityState === "visible") {
-        lastTimestamp = performance.now();
-      }
-    });
+    document.addEventListener("visibilitychange", visibilityHandler);
 
     requestAnimationFrame(draw);
   }
@@ -403,10 +409,11 @@
 
   function cleanup() {
     if (origin) {
-      origin.removeEventListener("mouseenter", () => (accelerate = true));
-      origin.removeEventListener("mouseleave", () => (accelerate = false));
+      origin.removeEventListener("mouseenter", mouseEnterHandler);
+      origin.removeEventListener("mouseleave", mouseLeaveHandler);
     }
-    window.removeEventListener("resize", windowResized);
+    window.removeEventListener("resize", resizeHandler);
+    document.removeEventListener("visibilitychange", visibilityHandler);
 
     if (canvas && canvas.parentNode) {
       canvas.parentNode.removeChild(canvas);
