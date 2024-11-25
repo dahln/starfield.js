@@ -34,6 +34,12 @@ Start the star field:
   Starfield.setup();
 </script>
 ```
+Or import as a module:
+```javascript
+import Starfield from './starfield.js';
+
+Starfield.setup();
+```
 You can tweak the effect with configuration options:
 ```javascript
 Starfield.setup({
@@ -52,7 +58,7 @@ Starfield.setup({
 ```
 Use the [demo playground](https://annikav9.github.io/starfield.js) to experiment.
 
-If you need to change the options while the star field is running, set them through `Starfield.config`:
+Set options while the star field is running through `Starfield.config`:
 ```javascript
 Starfield.config.starColor = 'rgb(255, 99, 71)';
 ```
@@ -60,22 +66,20 @@ Starfield.config.starColor = 'rgb(255, 99, 71)';
 > The `numStars` option cannot be changed after the star field is started.
 
 ## Manual mode
-If you don't want the origin to be bound to an element, you can use manual mode:
-```html
-<script>
-  Starfield.setup({
-    auto: false,
-    originX: 100,  // container width / 2 if not set
-    originY: 250,  // container height / 2 if not set
-  });
-</script>
+If you don't want the origin to be bound to an element, use manual mode:
+```js
+Starfield.setup({
+  auto: false,
+  originX: 100,  // container width / 2 if not set
+  originY: 250,  // container height / 2 if not set
+});
 ```
-In this mode, a couple of features are disabled:
+In this mode, a few features are disabled:
 - Acceleration on hover (not bound to an element)
 - Origin element tracking (not bound to an element)
 - Automatic canvas resizing
 
-However, a few functions are exposed for manual control:
+However, functions are exposed for manual control:
 ```javascript
 /**
  * Set the origin of the starfield to a specific point.
