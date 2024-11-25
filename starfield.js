@@ -1,7 +1,7 @@
 /*
  * starfield.js
  *
- * Version: 1.4.0
+ * Version: 1.5.0
  * Description: Interactive starfield background
  *
  * Usage:
@@ -25,6 +25,7 @@
     baseSpeed: 1,                     // Base speed of stars (will affect acceleration)
     trailLength: 0.8,                 // Length of star trail (0-1)
     starColor: "rgb(255, 255, 255)",  // Color of stars (only rgb)
+    canvasColor: "rgb(0, 0, 0)",      // Canvas background color (only rgb)
     hueJitter: 0,                     // Maximum hue variation in degrees (0-360)
     maxAcceleration: 10,              // Maximum acceleration
     accelerationRate: 0.2,            // Rate of acceleration
@@ -49,6 +50,8 @@
   let canvas, ctx;
   let width, height;
   let lastTimestamp = 0;
+  let canvasRGB = [0, 0, 0];
+  let lastCanvasColor = config.canvasColor;
 
   let origin;
   let container;
@@ -101,6 +104,7 @@
     canvas.style.width = "100%";
     canvas.style.height = "100%";
     canvas.style.zIndex = "-1";
+    canvasRGB = parseRGBA(config.canvasColor);
 
     container.appendChild(canvas);
 
@@ -244,7 +248,12 @@
       }
     }
 
-    ctx.fillStyle = `rgba(0, 0, 0, ${1 - config.trailLength})`;
+    if (lastCanvasColor !== config.canvasColor) {
+      canvasRGB = parseRGBA(config.canvasColor);
+      lastCanvasColor = config.canvasColor;
+    }
+    const [bgR, bgG, bgB] = canvasRGB;
+    ctx.fillStyle = `rgba(${bgR}, ${bgG}, ${bgB}, ${1 - config.trailLength})`;
     ctx.fillRect(0, 0, width, height);
 
     if (accelerate) {
