@@ -275,6 +275,7 @@
     return Math.random() * (max - min) + min;
   }
 
+  // https://gist.github.com/mjackson/5311256
   function rgbToHsl(r, g, b) {
     r /= 255;
     g /= 255;
@@ -305,6 +306,7 @@
     return [h * 360, s, l];
   }
 
+  // https://gist.github.com/mjackson/5311256
   function hslToRgb(h, s, l) {
     let r, g, b;
     h = h / 360;
