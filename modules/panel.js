@@ -1,4 +1,4 @@
-export function initPanel() {
+export function initPanel(Starfield) {
   const updateConfig = {
     starColor: (value) => {
       const numericValue = parseInt(value.replace("#", ""), 16);
@@ -10,6 +10,10 @@ export function initPanel() {
     hueJitter: (value) => {
       if (value === "") return;
       Starfield.config.hueJitter = parseInt(value);
+    },
+    trailLength: (value) => {
+      if (value === "") return;
+      Starfield.config.trailLength = parseFloat(value);
     },
     baseSpeed: (value) => {
       if (value === "") return;
