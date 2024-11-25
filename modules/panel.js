@@ -1,4 +1,4 @@
-export function initPanel(Starfield) {
+export function initPanel() {
   const updateConfig = {
     starColor: (value) => {
       const numericValue = parseInt(value.replace("#", ""), 16);

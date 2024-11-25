@@ -1,18 +1,11 @@
-import { initDrag } from './modules/drag.js';
-import { initDocs } from './modules/docs.js';
-import { initPanel } from './modules/panel.js';
-import { initMobile } from './modules/mobile.js';
-import Starfield from './starfield.js';
+import { initDrag } from "./modules/drag.js";
+import { initDocs } from "./modules/docs.js";
+import { initPanel } from "./modules/panel.js";
+import { initMobile } from "./modules/mobile.js";
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   initMobile();
   initDrag();
   initDocs();
-  initPanel(Starfield);
-  Starfield.setup({
-    baseSpeed: 3,
-    maxAcceleration: 2,
-    accelerationRate: 0.05,
-    decelerationRate: 0.05,
-  });
+  initPanel();
 });
