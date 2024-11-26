@@ -44,16 +44,17 @@ You can tweak the effect with configuration options:
 ```javascript
 Starfield.setup({
   // Default values
-  numStars: 250,                     // Number of stars
-  baseSpeed: 1,                      // Base speed of stars (will affect acceleration)
-  trailLength: 0.8,                  // Length of star trail (0-1)
-  starColor: 'rgb(230, 230, 100)',   // Color of stars (only rgb)
-  hueJitter: 0,                      // Maximum hue variation in degrees (0-360)
-  maxAcceleration: 10,               // Maximum acceleration
-  accelerationRate: 0.2,             // Rate of acceleration
-  decelerationRate: 0.2,             // Rate of deceleration
-  minSpawnRadius: 80,                // Minimum spawn distance from origin
-  maxSpawnRadius: 500,               // Maximum spawn distance from origin
+  numStars: 250,                    // Number of stars
+  baseSpeed: 1,                     // Base speed of stars (will affect acceleration)
+  trailLength: 0.8,                 // Length of star trail (0-1)
+  starColor: 'rgb(230, 230, 100)',  // Color of stars (only rgb)
+  canvasColor: 'rgb(0, 0, 0)',      // Canvas background color (only rgb)
+  hueJitter: 0,                     // Maximum hue variation in degrees (0-360)
+  maxAcceleration: 10,              // Maximum acceleration
+  accelerationRate: 0.2,            // Rate of acceleration
+  decelerationRate: 0.2,            // Rate of deceleration
+  minSpawnRadius: 80,               // Minimum spawn distance from origin
+  maxSpawnRadius: 500,              // Maximum spawn distance from origin
 });
 ```
 Use the [demo playground](https://annikav9.github.io/starfield.js) to experiment.
@@ -63,7 +64,8 @@ Set options while the star field is running through `Starfield.config`:
 Starfield.config.starColor = 'rgb(255, 99, 71)';
 ```
 > [!NOTE]
-> The `numStars` option cannot be changed after the star field is started.
+> - If you see persistent lines on the canvas, try setting `trailLength` to a lower value.
+> - The `numStars` option cannot be changed after the star field is started.
 
 ## Manual mode
 If you don't want the origin to be bound to an element, use manual mode:
