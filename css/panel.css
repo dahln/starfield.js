@@ -97,9 +97,7 @@ input[type="number"] {
   padding: 0;
 }
 
-pre {
-  background-color: #1e1e1e;
-  color: #dcdcdc;
+code {
   padding: 10px;
   border-radius: 5px;
   overflow-x: auto;

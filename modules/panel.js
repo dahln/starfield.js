@@ -1,4 +1,4 @@
-export function initPanel() {
+export function initPanel(hljs) {
   const updateConfig = {
     starColor: (value) => {
       const numericValue = parseInt(value.replace("#", ""), 16);
@@ -83,7 +83,10 @@ export function initPanel() {
   });
 </script>`;
 
-    document.getElementById("embed-code").textContent = embedCode;
+    var embedEl = document.getElementById("embed-code");
+    embedEl.textContent = embedCode;
+    delete embedEl.dataset.highlighted;
+    hljs.highlightElement(embedEl);
   }
 
   function attachDynamicListeners() {

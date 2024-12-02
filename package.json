@@ -6,6 +6,9 @@
     "build": "parcel build  --no-source-maps",
     "deploy": "gh-pages -d dist -b gh-pages -m 'Deploy'"
   },
+  "dependencies": {
+    "highlight.js": "latest"
+  },
   "devDependencies": {
     "parcel": "latest",
     "parcel-transformer-ogimage": "latest",
